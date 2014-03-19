@@ -4,9 +4,9 @@
 
 # A simple bash script that creates a virtual host in Apache on Windows Msysgit
 # Usage: sh ./vhost.sh myweb.dev 'c:\Projects\myweb\www'
-
+ 
 HOSTS=/c/Windows/System32/Drivers/etc/hosts
-HTTPDCONF=/d/wamp/bin/apache/apache2.2.22/conf/extra/httpd-vhosts.conf
+HTTPDCONF=/c/wamp/bin/apache/Apache2.4.4/conf/extra/httpd-vhosts.conf
 
 # 2 arguments are required
 if [ -o $1 ]
@@ -21,13 +21,19 @@ if [ -o $2 ]
 		exit
 fi
 
+if [ -o $3 ]
+	then
+		echo "You have to provide a description"
+		exit
+fi
+
 # Map domain to localhost in hosts file
-echo -e "127.0.0.1		$1" >> $HOSTS
+echo -e "127.0.0.1 $1 #$3" >> $HOSTS
 
 # Add virtual host to httpd.conf
 echo "
 # $1 Templates
-<VirtualHost *:807>
+<VirtualHost *:80>
 	ServerAdmin admin@localhost.com
 	DocumentRoot '$2'
 	ServerName $1
